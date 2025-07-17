@@ -79,49 +79,49 @@
     const malla = {
       "Semestre 1": [
         "Redes I",
-        "Electricidad y Electronica en Telecomunicaciones",
+        "Electricidad y Electrónica en Telecomunicaciones",
         "Hardware y Software",
-        "Resolucion de problemas en Algebra",
-        "Formacion Ciudadana"
+        "Resolución de problemas en Álgebra",
+        "Formación Ciudadana"
       ],
       "Semestre 2": [
         "Redes II",
         "Infraestructura de Telecomunicaciones",
         "Sistemas Operativos",
         "Funciones y Matrices",
-        "Administracion"
+        "Administració"
       ],
       "Semestre 3": [
         "Redes III",
         "Redes de Acceso",
         "Redes Inalambricas",
-        "Taller de integracion",
+        "Taller de integración",
         "Electivo Tendencias del Sector Productivo y de Servicios I",
-        "Ingles I"
+        "Inglés I"
       ],
       "Semestre 4": [
         "Redes IV",
-        "Tecnicas de Transmicion",
-        "Taller de Integracion II",
+        "Técnicas de Transmisión",
+        "Taller de Integración II",
         "Servicios IP",
         "Electivo Tendencias del Sector Productivo y de Servicios II",
-        "Innovacion y emprendimiento I"
+        "Innovacion y Emprendimiento I"
       ],
       "Semestre 5": [
         "Redes Avanzadas",
-        "Proogramacion Aplicada",
+        "Programación Aplicada",
         "Cloud Computing y Virtualizacion",
-        "Calculo Diferencial",
-        "Probabilidad y Estadistica",
-        "Innovacion y Emprendimiento II"
+        "Cálculo Diferencial",
+        "Probabilidad y Estadística",
+        "Innovación y Emprendimiento II"
       ],
       "Semestre 6": [
         "Redes Avanzadas II",
         "Infraestructura de Telecomunicaciones Avanzada",
         "Taller de Integracion III",
-        "Calculo Integral",
+        "Cálculo Integral",
         "Finanzas",
-        "Ingles II"
+        "Inglés II"
       ],
       "Semestre 7": [
         "Redes Avanzadas III",
@@ -129,19 +129,42 @@
         "Electivo Tendencias del Sector Productivo y de Servicios III",
         "Electivo Tendencias del Sector Productivo y de Servicios IV",
         "Evaluacion de proyectos",
-        "Ingles III"
+        "Inglés III"
       ],
       "Semestre 8": [
         "Operaciones de Ciberseguridad",
         "Sistemas Ciberfisicos",
-        "Proyecto de titulo",
+        "Proyecto de título",
         "Electivo Tendencias del Sector Productivo y de Servicios V",
         "Electivo Tendencias del Sector Productivo y de Servicios VI",
         "Innovacion y Emprendimiento III"
       ]
     };
 
+    const prerequisitos = {
+      "Sistemas Operativos": "Hardware y Software",
+      "Funciones y Matrices": "Resolucion de problemas en Algebra",
+      "Redes II": "Redes I",
+      "Taller de integracion": "Redes II",
+      "Redes IV": "Redes III",
+      "Taller de Integracion II": "Taller de integracion",
+      "Servicios IP": "Redes Inalambricas",
+      "Calculo Diferencial": "Funciones y Matrices",
+      "Innovacion y Emprendimiento II": "Innovacion y emprendimiento I",
+      "Redes Avanzadas": "Redes IV",
+      "Redes Avanzadas II": "Redes Avanzadas",
+      "Redes Avanzadas III": "Redes Avanzadas II",
+      "Finanzas": "Administracion",
+      "Calculo Integral": "Calculo Diferencial",
+      "Ingles II": "Ingles I",
+      "Ingles III": "Ingles II"
+    };
+
     const container = document.getElementById("malla");
+
+    function isAprobado(ramo) {
+      return localStorage.getItem(ramo + "-ok") === "true";
+    }
 
     Object.entries(malla).forEach(([semestre, ramos]) => {
       const semestreDiv = document.createElement("div");
@@ -163,15 +186,20 @@
             oninput="localStorage.setItem('${clave}-nombre', this.value)">`;
             }
 
+        const prerequisito = prerequisitos[ramo];
+        const prerrequisitoAprobado = prerrequisito ? isAprobado(Object.keys(malla).flatMap(s => malla[s]).find(r => r === prerrequisito)) : true;
+
         tarjeta.innerHTML = `
           <label>
-            <input type="checkbox" ${aprobado ? "checked" : ""} onchange="
+            <input type="checkbox" ${aprobado ? "checked" : ""} ${!prerrequisitoAprobado ? "disabled" : ""} onchange="
               localStorage.setItem('${clave}-ok', this.checked);
               this.closest('.tarjeta').classList.toggle('aprobado', this.checked);
+              location.reload();
             ">
-            ${ramo}
+            ${ramo}${prerrequisito && !prerrequisitoAprobado ? " (bloqueado hasta aprobar: " + prerrequisito + ")" : ""}
           </label>
           <input class="promedio-input" type="number" step="0.1" min="1.0" max="7.0" value="${nota}" placeholder="Promedio" 
+            ${!prerrequisitoAprobado ? "disabled" : ""}
             oninput="localStorage.setItem('${clave}-nota', this.value)">
           ${electivoInput}
         `;
