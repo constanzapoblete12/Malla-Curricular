@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Malla Curricular - Ingenieria Telecomunicaciones</title>
+  <title>Malla Curricular - Ingeniería en Telecomunicaciones</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -67,61 +67,59 @@
       border-radius: 4px;
       border: 1px solid #ccc;
       box-sizing: border-box;
-      }
+    }
   </style>
 </head>
 <body>
-  <h1>Malla Curricular - Ingenieria en Telecomunicaciones</h1>
-
+  <h1>Malla Curricular - Ingeniería en Telecomunicaciones</h1>
   <div class="contenedor-malla" id="malla"></div>
-
   <script>
     const malla = {
       "Semestre 1": [
         "Redes I",
-        "Electricidad y Electrónica en Telecomunicaciones",
+        "Electricidad y Electronica en Telecomunicaciones",
         "Hardware y Software",
-        "Resolución de problemas en Álgebra",
-        "Formación Ciudadana"
+        "Resolucion de problemas en Algebra",
+        "Formacion Ciudadana"
       ],
       "Semestre 2": [
         "Redes II",
         "Infraestructura de Telecomunicaciones",
         "Sistemas Operativos",
         "Funciones y Matrices",
-        "Administració"
+        "Administracion"
       ],
       "Semestre 3": [
         "Redes III",
         "Redes de Acceso",
         "Redes Inalambricas",
-        "Taller de integración",
+        "Taller de integracion",
         "Electivo Tendencias del Sector Productivo y de Servicios I",
-        "Inglés I"
+        "Ingles I"
       ],
       "Semestre 4": [
         "Redes IV",
-        "Técnicas de Transmisión",
-        "Taller de Integración II",
+        "Tecnicas de Transmicion",
+        "Taller de Integracion II",
         "Servicios IP",
         "Electivo Tendencias del Sector Productivo y de Servicios II",
-        "Innovacion y Emprendimiento I"
+        "Innovacion y emprendimiento I"
       ],
       "Semestre 5": [
         "Redes Avanzadas",
-        "Programación Aplicada",
+        "Proogramacion Aplicada",
         "Cloud Computing y Virtualizacion",
-        "Cálculo Diferencial",
-        "Probabilidad y Estadística",
-        "Innovación y Emprendimiento II"
+        "Calculo Diferencial",
+        "Probabilidad y Estadistica",
+        "Innovacion y Emprendimiento II"
       ],
       "Semestre 6": [
         "Redes Avanzadas II",
         "Infraestructura de Telecomunicaciones Avanzada",
         "Taller de Integracion III",
-        "Cálculo Integral",
+        "Calculo Integral",
         "Finanzas",
-        "Inglés II"
+        "Ingles II"
       ],
       "Semestre 7": [
         "Redes Avanzadas III",
@@ -129,12 +127,12 @@
         "Electivo Tendencias del Sector Productivo y de Servicios III",
         "Electivo Tendencias del Sector Productivo y de Servicios IV",
         "Evaluacion de proyectos",
-        "Inglés III"
+        "Ingles III"
       ],
       "Semestre 8": [
         "Operaciones de Ciberseguridad",
         "Sistemas Ciberfisicos",
-        "Proyecto de título",
+        "Proyecto de titulo",
         "Electivo Tendencias del Sector Productivo y de Servicios V",
         "Electivo Tendencias del Sector Productivo y de Servicios VI",
         "Innovacion y Emprendimiento III"
@@ -161,7 +159,6 @@
     };
 
     const container = document.getElementById("malla");
-
     function isAprobado(ramo) {
       return localStorage.getItem(ramo + "-ok") === "true";
     }
@@ -179,14 +176,14 @@
 
         const tarjeta = document.createElement("div");
         tarjeta.className = "tarjeta" + (aprobado ? " aprobado" : "");
-        
+
         let electivoInput = "";
         if (ramo.toLowerCase().includes("electivo")) {
           electivoInput = `<input class="electivo-input" type="text" placeholder="Nombre del electivo cursado" value="${electivo}" 
             oninput="localStorage.setItem('${clave}-nombre', this.value)">`;
-            }
+        }
 
-        const prerequisito = prerequisitos[ramo];
+        const prerrequisito = prerequisitos[ramo];
         const prerrequisitoAprobado = prerrequisito ? isAprobado(Object.keys(malla).flatMap(s => malla[s]).find(r => r === prerrequisito)) : true;
 
         tarjeta.innerHTML = `
