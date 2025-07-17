@@ -160,7 +160,8 @@
 
     const container = document.getElementById("malla");
     function isAprobado(ramo) {
-      return localStorage.getItem(ramo + "-ok") === "true";
+  const keys = Object.keys(localStorage);
+  return keys.some(key => key.endsWith(ramo + "-ok") && localStorage.getItem(key) === "true");
     }
 
     Object.entries(malla).forEach(([semestre, ramos]) => {
